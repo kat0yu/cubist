@@ -1,9 +1,10 @@
 /* ------------------------------ */
 /* ----------- layout ----------- */
 /* ------------------------------ */
-body.flex {
-  display: flex;
-  flex-direction: column;
+main {
+  width: 100%;
+  max-width: 700px;
+  margin-inline: auto;
 }
 
 /* ------------------------------ */

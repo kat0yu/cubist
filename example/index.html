@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="./style.css">
 
   <script type="module">
-    import Cubist from "../src/index.js";
+    import Cubist from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
 
     const cube1 = Cubist.makeCubeById('cube1');
 
@@ -25,22 +25,24 @@
     cube5.blackOutByMove("M","U");
   </script>
 </head>
-<body class="flex">
-  <h1 class="hd mt0">作成</h1>
-  <div class="cube" id="cube1"></div>
-  <script>cube2.blackOutByFace("f");</script>
+<body>
+  <main>
+    <h1 class="hd mt0">作成</h1>
+    <div class="cube" id="cube1"></div>
+    <script>cube2.blackOutByFace("f");</script>
 
-  <h1 class="hd">色付け</h1>
-  <p><code>fullcolor()</code></p>
-  <div class="cube" id="cube2"></div>
+    <h1 class="hd">色付け</h1>
+    <p><code>fullcolor()</code></p>
+    <div class="cube" id="cube2"></div>
 
-  <p><code>blackOutByFace()</code></p>
-  <div class="cube" id="cube3"></div>
+    <p><code>blackOutByFace()</code></p>
+    <div class="cube" id="cube3"></div>
 
-  <p><code>blackOutBySticker()</code></p>
-  <div class="cube" id="cube4"></div>
+    <p><code>blackOutBySticker()</code></p>
+    <div class="cube" id="cube4"></div>
 
-  <p><code>blackOutByMove()</code></p>
-  <div class="cube" id="cube5"></div>
+    <p><code>blackOutByMove()</code></p>
+    <div class="cube" id="cube5"></div>
+  </main>
 </body>
 </html>
