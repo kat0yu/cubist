@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./style.css">
+
+  <script type="module">
+    import Cubist from "../src/index.js";
+
+    const cube1 = Cubist.makeCubeById('cube1');
+
+    const cube2 = Cubist.makeCubeById('cube2');
+    cube2.fullColors();
+
+    const cube3 = Cubist.makeCubeById('cube3');
+    cube3.fullColors();
+    cube3.blackOutByFace("f","r");
+
+    const cube4 = Cubist.makeCubeById('cube4');
+    cube4.fullColors();
+    cube4.blackOutBySticker("f","r");
+
+    const cube5 = Cubist.makeCubeById('cube5');
+    cube5.fullColors();
+    cube5.blackOutByMove("M","U");
+  </script>
+</head>
+<body class="flex">
+  <h1 class="hd mt0">作成</h1>
+  <div class="cube" id="cube1"></div>
+  <script>cube2.blackOutByFace("f");</script>
+
+  <h1 class="hd">色付け</h1>
+  <p><code>fullcolor()</code></p>
+  <div class="cube" id="cube2"></div>
+
+  <p><code>blackOutByFace()</code></p>
+  <div class="cube" id="cube3"></div>
+
+  <p><code>blackOutBySticker()</code></p>
+  <div class="cube" id="cube4"></div>
+
+  <p><code>blackOutByMove()</code></p>
+  <div class="cube" id="cube5"></div>
+</body>
+</html>
