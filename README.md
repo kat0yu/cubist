@@ -39,5 +39,5 @@ head
 -> body
 ``` html
 <div id="cube1"><svg>~~~</svg></div>
-<p>Move: <span id="move1" onclick=animate1_1>R U R' U'</span></p>
+<p>Move: <span id="move1" onclick=animate1_1>[R, U]</span></p>
 ```
