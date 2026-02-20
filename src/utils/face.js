@@ -84,15 +84,15 @@ export default class CubistFace {
   }
   
   static getFaceByName (name) {
-    if (!(new RegExp("^[frubld]$").test(name))) {throw TypeError();}
+    if (!(new RegExp("^[FRUBLD]$").test(name))) {throw TypeError();}
 
     return new CubistFace({
-      isFront: new RegExp("^[fru]$").test(name),
-      rotate: new RegExp("^[fru]$").test(name)? ["f","r","u"].indexOf(name): ["b","l","d"].indexOf(name)
+      isFront: new RegExp("^[FRU]$").test(name),
+      rotate: new RegExp("^[FRU]$").test(name)? ["F","R","U"].indexOf(name): ["B","L","D"].indexOf(name)
     });
   }
   toString () {
-    return this.#isFront? ["f","r","u"][this.#rotate]: ["b","l","d"][this.#rotate];
+    return this.#isFront? ["F","R","U"][this.#rotate]: ["B","L","D"][this.#rotate];
   }
 
   static *allFaces () {

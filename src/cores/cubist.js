@@ -13,7 +13,7 @@ export default class Cubist {
   static opacity = 0.2;
 
   #cube; #groups; #pathes; #convert; #isAnimating
-  constructor (element, {sides: [firstFace, secondFace] = []} = {}) {
+  constructor (element, {sides: [firstFace = Face.getFaceByName("F"), secondFace = Face.getFaceByName("R")] = []} = {}) {
     if (!(element instanceof Element)) {throw TypeError();}
     if (!(firstFace instanceof Face)) {throw TypeError();}
     if (!(secondFace instanceof Face)) {throw TypeError();}
@@ -29,19 +29,10 @@ export default class Cubist {
     this.#cube.setAttribute("viewBox", Cubist.box);
 
     if (element.getAttribute("id") != null) {
-      this.#cube.setAttribute("id", element.getAttribute("id"));
+      this.#cube.setAttribute("id", `${element.getAttribute("id")}_cube`);
     }
     if (element.getAttribute("class") != null) {
-      this.#cube.setAttribute("class", [
-        element.getAttribute("class"),
-        "cube",
-        `cube-${firstFace.toString()}${secondFace.toString()}${thirdFace.toString()}`
-      ].join(" "));
-    } else {
-      this.#cube.setAttribute("class", [
-        "cube",
-        `cube-${firstFace.toString()}${secondFace.toString()}${thirdFace.toString()}`
-      ].join(" "));
+      this.#cube.setAttribute("class", element.getAttribute("class").split(" ").map(cls => `${cls}_cube`).join(" "));
     }
 
     this.#cube.style.fill = "dimgray";
@@ -50,14 +41,14 @@ export default class Cubist {
     this.#cube.style['stroke-linejoin'] = "round";
     this.#cube.style.transition = 500;
     
-    element.parentNode.insertBefore(this.#cube, element);
-    element.remove();
-
+    element.appendChild(this.#cube);
 
     this.#groups = {};
     for (let isFront of [false, true]) {
       this.#groups[isFront] = this.#cube.appendChild(document.createElementNS(Cubist.SVGURL, "g"));
-      this.#groups[isFront].setAttribute("class", ["group", `group-${isFront? "front": "back"}`].join(" "));
+      if (element.getAttribute("class") != null) {
+        this.#groups[isFront].setAttribute("class", element.getAttribute("class").split(" ").map(cls => `${cls}_group ${cls}_group-${isFront? "front": "back"}`).join(" "));
+      }
       if (!isFront) {this.#groups[isFront].style.stroke = "white";}
     }
 
@@ -76,8 +67,10 @@ export default class Cubist {
           )
       );
       path.setAttribute("d", d);
-
-      path.setAttribute("class", `sticker sticker-${sticker.getName()}`);
+      
+      if (element.getAttribute("class") != null) {
+        path.setAttribute("class", element.getAttribute("class").split(" ").map(cls => `${cls}_sticker ${cls}_sticker-${sticker.getName()}`).join(" "));
+      }
     }
   }
 
@@ -88,11 +81,18 @@ export default class Cubist {
     }
     return colors;
   }
-  setColors (colors) {
+  addColors (colors) {
     for (let stickerId in colors) {
       this.#pathes[stickerId].style.fill = colors[stickerId];
     }
     return this;
+  }
+  removeColors (stickers) {
+    let colors = {};
+    for (let sticker of stickers) {
+      colors[sticker.getName()] = "inherit";
+    }
+    return this.addColors(colors);
   }
   moveColors (move) {
     let colors = {};
@@ -105,17 +105,10 @@ export default class Cubist {
       colors[sticker.getName()] = this.#pathes[shift[sticker.getName()]].style.fill;
     }
     console.groupEnd();
-    return this.setColors(colors);
-  }
-  blackOut (stickers) {
-    let colors = {};
-    for (let sticker of stickers) {
-      colors[sticker.getName()] = "inherit";
-    }
-    return this.setColors(colors);
+    return this.addColors(colors);
   }
 
-  getAnimation (moves, {begin = 50, end = 200, duration = 20, gap = 30, repeatCount = 1, fill = "remove"} = {}) {
+  getAnimate (moves, {begin = 50, end = 200, duration = 20, gap = 30, repeatCount = 1, fill = "remove"} = {}) {
 
     const intro = ({count = 0, origin = null, repeat = (repeatCount == "indefinite"? repeatCount: repeatCount - 1)} = {}) => {
       if (count == 0) {
@@ -182,12 +175,12 @@ export default class Cubist {
       else {
         this.#isAnimating = false;
         if (repeat == "indefinite" || repeat > 0) {
-          this.setColors(origin);
+          this.addColors(origin);
           requestAnimationFrame(() => intro({count: 0, repeat: ((repeat == "indefinite")? repeat: repeat - 1)}));
         }
         else {
           if (fill == "remove") {
-            this.setColors(origin);
+            this.addColors(origin);
           }
         }
       }
@@ -219,69 +212,44 @@ export default class Cubist {
     }
   }
 
-
-  static makeCube (element, {sides: [firstFace = "f", secondFace = "r"] = []} = {}) {
-    if (typeof firstFace == "function") {firstFace = firstFace(element);}
-    if (typeof secondFace == "function") {secondFace = secondFace(element);}
-
-    return new Cubist(element, {
-      sides: [
-        Face.getFaceByName(firstFace),
-        Face.getFaceByName(secondFace)
-      ]
-    });
-  }
-  static makeCubeById (id, option = {}) {
-    const preElement = document.getElementById(id);
-    if (preElement == null) {throw Error();}
-    return Cubist.makeCube(preElement, option);
-  }
-  static *makeCubesByClassName (className, option = {}) {
-    const preElements = document.getElementsByClassName(className);
-    if (preElements == null) {throw Error();}
-    for (let preElement of preElements) {
-      yield Cubist.makeCube(preElement, option);
-    }
-  }
-
-  setColorsByDictionary (colorDictionary) {
-    let colors = {};
-    for (let [stikcerName, color] of Object.entries(colorDictionary)) {
-      colors[Sticker.getStickerByName(stikcerName).getName()] = color;
-    }
-    return this.setColors(colors);
-  }
   fullColors () {
-    return this.fullColorsByDictionary({"f": "red", "r": "limegreen", "u": "yellow" ,"b": "orange", "l": "blue", "d": "white"});
+    return this.addColorsByFace({"F": "red", "R": "limegreen", "U": "yellow" ,"B": "orange", "L": "blue", "D": "white"});
   }
-  fullColorsByDictionary (faceColors) {
+  addColorsByFace (faceColors) {
     let colors = {};
     for (let [faceName, color] of Object.entries(faceColors)) {
       for (let sticker of Sticker.allStickersOnFace(Face.getFaceByName(faceName))) {
         colors[sticker.getName()] = color;
     } }
-    return this.setColors(colors);
+    return this.addColors(colors);
   }
-  blackOutByFace (...faceNames) {
+  addColorsBySticker (colorDictionary) {
+    let colors = {};
+    for (let [stikcerName, color] of Object.entries(colorDictionary)) {
+      colors[Sticker.getStickerByName(stikcerName).getName()] = color;
+    }
+    return this.addColors(colors);
+  }
+  removeColorsByFace (...faceNames) {
     for (let faceName of faceNames) {
-      this.blackOut([...Sticker.allStickersOnFace(Face.getFaceByName(faceName))]);
+      this.removeColors([...Sticker.allStickersOnFace(Face.getFaceByName(faceName))]);
     }
     return this;
   }
-  blackOutBySticker (...stickerNames) {
+  removeColorsBySticker (...stickerNames) {
     let stickers = [];
     for (let stickerName of stickerNames) {
       stickers.push(Sticker.getStickerByName(stickerName));
     }
-    return this.blackOut(stickers);
+    return this.removeColors(stickers);
   }
-  blackOutByMove (...movetexts) {
+  removeColorsByMove (...movetexts) {
     for (let move of Movrackets.makeMovracketsFromText(movetexts.join("")).linise().toArray()) {
-      this.blackOut([...move.getAffectedStickers()]);
+      this.removeColors([...move.getAffectedStickers()]);
     }
     return this;
   }
-  moveColorsByMovetext (movetext, reversed = false) {
+  moveColorsByMove (movetext, reversed = false) {
     let moves = Movrackets.makeMovracketsFromText(movetext);
     if (reversed) {moves = moves.exponent(-1);}
     moves = moves.linise().toArray();
@@ -294,8 +262,8 @@ export default class Cubist {
     else {this.#groups[true].style.opacity = 1;}
     return this;
   }
-  getAnimationByMovetext (movetext, option = {}) {
-    return this.getAnimation([...Movrackets.makeMovracketsFromText(movetext).linise().toArray()], option);
+  getAnimateByMove (movetext, option = {}) {
+    return this.getAnimate([...Movrackets.makeMovracketsFromText(movetext).linise().toArray()], option);
   }
 
   static digitize (cordinates) {

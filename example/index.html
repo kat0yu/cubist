@@ -5,44 +5,67 @@
   <link rel="stylesheet" href="./style.css">
 
   <script type="module">
-    import Cubist from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
+    // import Cubist from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
+    import Cubist from "../src/index.js";
 
-    const cube1 = Cubist.makeCubeById('cube1');
+    const cube1 = new Cubist(document.getElementById("cube1"));
 
-    const cube2 = Cubist.makeCubeById('cube2');
+    const cube2 = new Cubist(document.getElementById("cube2"));
     cube2.fullColors();
 
-    const cube3 = Cubist.makeCubeById('cube3');
+    const cube3 = new Cubist(document.getElementById("cube3"));
     cube3.fullColors();
-    cube3.blackOutByFace("f","r");
+    cube3.addColorsByFace({"U": "blue"});
 
-    const cube4 = Cubist.makeCubeById('cube4');
+    const cube4 = new Cubist(document.getElementById("cube4"));
     cube4.fullColors();
-    cube4.blackOutBySticker("f","r");
+    cube4.removeColorsByFace("U");
 
-    const cube5 = Cubist.makeCubeById('cube5');
+    const cube5 = new Cubist(document.getElementById("cube5"));
     cube5.fullColors();
-    cube5.blackOutByMove("M","U");
+    cube5.removeColorsBySticker("FD", "ULB");
+
+    const cube6 = new Cubist(document.getElementById("cube6"));
+    cube6.fullColors();
+    cube6.removeColorsByMove("M","U");
+
+    const cube7 = new Cubist(document.getElementById("cube7"));
+    cube7.fullColors();
+    cube7.moveColorsByMove("R");
+
+    const cube8 = new Cubist(document.getElementById("cube8"));
+    cube8.fullColors();
+    const animate8_1 = cube8.getAnimateByMove("R");
+    document.getElementById("animate8_1").addEventListener("click", animate8_1);
   </script>
 </head>
 <body>
   <main>
-    <h1 class="hd mt0">作成</h1>
+    <h1 class="mt16">作成</h1>
     <div class="cube" id="cube1"></div>
-    <script>cube2.blackOutByFace("f");</script>
 
-    <h1 class="hd">色付け</h1>
-    <p><code>fullcolor()</code></p>
+    <h1 class="mt16">色付け</h1>
+    <p class="mt16"><code>.fullcolors()</code></p>
     <div class="cube" id="cube2"></div>
 
-    <p><code>blackOutByFace()</code></p>
+    <p class="mt16"><code>.addColorsByFace({"U": "blue"})</code></p>
     <div class="cube" id="cube3"></div>
 
-    <p><code>blackOutBySticker()</code></p>
+    <p class="mt16"><code>.removeColorsByFace("F", "R")</code></p>
     <div class="cube" id="cube4"></div>
 
-    <p><code>blackOutByMove()</code></p>
+    <p class="mt16"><code>.removeColorsBySticker("FD", "ULB")</code></p>
     <div class="cube" id="cube5"></div>
+
+    <p class="mt16"><code>.removeColorsByMove("M", "U")</code></p>
+    <div class="cube" id="cube6"></div>
+
+    <p class="mt16"><code>.moveColorsByMove("R")</code></p>
+    <div class="cube" id="cube7"></div>
+
+    <p class="mt16"><code>.getAnimateByMove("R")</code></p>
+    <button type="button" id="animate8_1">ここをクリック</button>
+    <div class="cube" id="cube8"></div>
   </main>
 </body>
 </html>

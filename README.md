@@ -25,12 +25,12 @@ head
   <script type="module">
     import Cubist from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
 
-    const cube1 = Cubist.makeCubeById("cube1");
+    const cube1 = new Cubist(document.getElementById("cube1"));
     cube1.fullColors();
 
-    const move1Span = document.querySelector("#move1")
+    const move1Span = document.getElementById("#move1");
     const move1 = move1Span.textContent;
-    const animate1_1 = cube1.getAnimation(move1);
+    const animate1_1 = cube1.getAnimateByMove(move1);
     move1Span.addEventListner("click", animate1_1);
   </script>
 </head>
