@@ -5,12 +5,13 @@
   <link rel="stylesheet" href="./style.css">
 
   <script type="module">
-    import Cubist from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
+    // import Cubist from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
+    import Cubist from "../src/index.js";
 
     const indexs = [0,1,2,3,4,5,6,7];
     const cubes = indexs.map(i => new Cubist(document.getElementById(`cube${i}`)));
 
-    indexs.filter(i => i > 1).map(i => cubes[i].fullColors());
+    indexs.filter(i => i > 0).map(i => cubes[i].fullColors());
 
     cubes[2].addColorsByFace({"U": "blue"});
     cubes[3].removeColorsByFace("U");

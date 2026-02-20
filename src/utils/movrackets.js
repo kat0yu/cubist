@@ -1,4 +1,4 @@
-import Move from "./move.js";
+import Movunit from "./movunit.js";
 import Nbracket from "./nbracket.js";
 import Vbracket from "./vbracket.js";
 import Ibracket from "./ibracket.js";
@@ -74,7 +74,7 @@ export default class Movrackets {
       else if (movracket instanceof Ibracket) {
         movrackets.push(movracket.applyFunctionToMovracket(Movrackets.spliceMinimumIbracket));
       }
-      else if (movracket instanceof Move) {
+      else if (movracket instanceof Movunit) {
         movrackets.push(movracket);
       }
     }
@@ -89,7 +89,7 @@ export default class Movrackets {
       if (movracket instanceof Nbracket || movracket instanceof Vbracket || movracket instanceof Ibracket) {
         movrackets.push(movracket.innerMinusExponent().applyFunctionToMovracket(Movrackets.innerMinusExponent));
       }
-      else if (movracket instanceof Move) {
+      else if (movracket instanceof Movunit) {
         movrackets.push(movracket);
       }
     }
@@ -107,7 +107,7 @@ export default class Movrackets {
       else if (movracket instanceof Ibracket) {
         movrackets.push(movracket.applyFunctionToMovracket(Movrackets.iriseNVbrackets));
       }
-      else if (movracket instanceof Move) {
+      else if (movracket instanceof Movunit) {
         movrackets.push(movracket);
       }
     }
@@ -126,7 +126,7 @@ export default class Movrackets {
         if (movracket instanceof Nbracket || movracket instanceof Vbracket || movracket instanceof Ibracket) {
           movrackets.concat(movracket.linise({depth: depth - 1}));
         }
-        else if (movracket instanceof Move) {
+        else if (movracket instanceof Movunit) {
           movrackets.push(movracket);
         }
       }
@@ -149,38 +149,38 @@ export default class Movrackets {
 
     while (i < characters.length) {
       if (new RegExp("[FRUBLD]").test(characters[i])) {
-        let move = characters[i];
+        let movunit = characters[i];
 
         i++;
         if (new RegExp("w").test(characters[i])) {
-          move += characters[i];
+          movunit += characters[i];
           i++;
         }
         if (new RegExp("'").test(characters[i])) {
-          move += characters[i];
+          movunit += characters[i];
           i++;
         }
         if (new RegExp("2").test(characters[i])) {
-          move += characters[i];
+          movunit += characters[i];
           i++;
         }
 
-        movrackets.push(Move.makeMoveFromText(move));
+        movrackets.push(Movunit.makeMovunitFromText(movunit));
       }
       else if (new RegExp("[SMExyz]").test(characters[i])) {
-        let move = characters[i];
+        let movunit = characters[i];
 
         i++;
         if (new RegExp("'").test(characters[i])) {
-          move += characters[i];
+          movunit += characters[i];
           i++;
         }
         if (new RegExp("2").test(characters[i])) {
-          move += characters[i];
+          movunit += characters[i];
           i++;
         }
 
-        movrackets.push(Move.makeMoveFromText(move));
+        movrackets.push(Movunit.makeMovunitFromText(Movunit));
       }
       else if (new RegExp("[\[]").test(characters[i])) {
         const leftIndex = i;
