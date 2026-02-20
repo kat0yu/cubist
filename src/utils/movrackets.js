@@ -30,16 +30,16 @@ export default class Movrackets {
     yield* this.#movrackets;
   }
 
-  exponent (exponent) {
+  repeat (count) {
     let movrackets = new Movrackets();
-    for (let time = 0; time < Math.abs(exponent); time++) {
-      if (exponent > 0) {
+    for (let time = 0; time < Math.abs(count); time++) {
+      if (count > 0) {
         for (let i = 0; i < this.#movrackets.length; i++) {
           movrackets.push(this.#movrackets[i]);
         }
       } else {
         for (let i = this.#movrackets.length - 1; i >= 0; i--) {
-          movrackets.push(this.#movrackets[i].exponent(-1));
+          movrackets.push(this.#movrackets[i].repeat(-1));
         }
       }
     }

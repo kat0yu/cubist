@@ -8,26 +8,26 @@ export default class Ibracket {
     this.#exponent = exponent;
   }
 
-  exponent (exponent) {
-    return new Ibracket({line: this.#line, exponent: this.#exponent * exponent});
+  repeat (count) {
+    return new Ibracket({line: this.#line, exponent: this.#exponent * count});
   }
 
   isMinimum () {
     return this.#line.length == 1;
   }
   outerLine () {
-    return this.#line.exponent(this.#exponent);
+    return this.#line.repeat(this.#exponent);
   }
 
   innerMinusExponent () {
     if (this.#exponent < 0) {
-      return new Ibracket({line: this.#line.exponent(-1), exponent: this.#exponent * -1});
+      return new Ibracket({line: this.#line.repeat(-1), exponent: this.#exponent * -1});
     } else {
       return new Ibracket({line: this.#line, exponent: this.#exponent});
     }
   }
   linise ({depth = 0} = {}) {
-    return this.#line.exponent(this.#exponent).linise({depth});
+    return this.#line.repeat(this.#exponent).linise({depth});
   }
 
   applyFunctionToMovracket (func) {

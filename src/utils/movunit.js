@@ -18,9 +18,9 @@ export default class Movunit {
     return this.#times;
   }
 
-  exponent (exponent) {
-    const finallyExponent = this.#times * exponent;
-    return new Movunit({axis: this.#axis, width: this.#width, start: this.#start, times: (finallyExponent<0? -1: 1) * ({0: 0, 1: 1, 2: 2, 3: -1}[Math.abs(finallyExponent)%4])});
+  repeat (count) {
+    const finallyCount = this.#times * count;
+    return new Movunit({axis: this.#axis, width: this.#width, start: this.#start, times: (finallyCount<0? -1: 1) * ({0: 0, 1: 1, 2: 2, 3: -1}[Math.abs(finallyCount)%4])});
   }
 
   *getAffectedStickers () {

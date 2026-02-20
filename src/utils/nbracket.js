@@ -11,8 +11,8 @@ export default class Nbracket {
     this.#exponent = exponent;
   }
 
-  exponent (exponent) {
-    return new Nbracket({left: this.#left, right: this.#right, exponent: this.#exponent * exponent});
+  repeat (count) {
+    return new Nbracket({left: this.#left, right: this.#right, exponent: this.#exponent * count});
   }
 
   toIbracket () {
@@ -24,7 +24,7 @@ export default class Nbracket {
 
   innerMinusExponent () {
     if (this.#exponent < 0) {
-      return new Nbracket({left: this.#right.exponent(-1), right: this.#left.exponent(-1), exponent: this.#exponent * -1});
+      return new Nbracket({left: this.#right.repeat(-1), right: this.#left.repeat(-1), exponent: this.#exponent * -1});
     } else {
       return new Nbracket({left: this.#left, right: this.#right, exponent: this.#exponent});
     }

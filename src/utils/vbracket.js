@@ -11,8 +11,8 @@ export default class Vbracket {
     this.#exponent = exponent;
   }
 
-  exponent (exponent) {
-    return new Vbracket({left: this.#left, right: this.#right, exponent: this.#exponent * exponent});
+  repeat (count) {
+    return new Vbracket({left: this.#left, right: this.#right, exponent: this.#exponent * count});
   }
 
   toIbracket () {
@@ -24,7 +24,7 @@ export default class Vbracket {
 
   innerMinusExponent () {
     if (this.#exponent < 0) {
-      return new Vbracket({left: this.#left, right: this.#right.exponent(-1), exponent: this.#exponent * -1});
+      return new Vbracket({left: this.#left, right: this.#right.repeat(-1), exponent: this.#exponent * -1});
     } else {
       return new Vbracket({left: this.#left, right: this.#right, exponent: this.#exponent});
     }
