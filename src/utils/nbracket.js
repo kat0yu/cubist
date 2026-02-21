@@ -1,11 +1,11 @@
 import Ibracket from "./ibracket.js";
-import Movrackets from "./movrackets.js";
+import MoveArray from "./movearray.js";
 
 export default class Nbracket {
   #left; #right; #exponent;
   constructor ({left, right, exponent}) {
-    if (!(left instanceof Movrackets)) {throw TypeError();}
-    if (!(right instanceof Movrackets)) {throw TypeError();}
+    if (!(left instanceof MoveArray)) {throw TypeError();}
+    if (!(right instanceof MoveArray)) {throw TypeError();}
     this.#left = left;
     this.#right = right;
     this.#exponent = exponent;
@@ -17,7 +17,12 @@ export default class Nbracket {
 
   toIbracket () {
     return new Ibracket({
-      line: new Movrackets({movrackets: [new Ibracket({line: this.#left, exponent: 1}), new Ibracket({line: this.#right, exponent: 1}), new Ibracket({line: this.#left, exponent: -1}), new Ibracket({line: this.#right, exponent: -1})]}),
+      line: new MoveArray(
+        new Ibracket({line: this.#left, exponent: 1}),
+        new Ibracket({line: this.#right, exponent: 1}),
+        new Ibracket({line: this.#left, exponent: -1}),
+        new Ibracket({line: this.#right, exponent: -1})
+      ),
       exponent: this.#exponent
     });
   }

@@ -1,9 +1,9 @@
-import Movrackets from "./movrackets.js";
+import MoveArray from "./movearray.js";
 
 export default class Ibracket {
   #line; #exponent;
   constructor ({line, exponent}) {
-    if (!(line instanceof Movrackets)) {throw TypeError();}
+    if (!(line instanceof MoveArray)) {throw TypeError();}
     this.#line = line;
     this.#exponent = exponent;
   }
