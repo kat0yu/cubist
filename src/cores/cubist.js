@@ -244,7 +244,7 @@ export default class Cubist {
     return this.removeColors(stickers);
   }
   removeColorsByMove (...movetexts) {
-    for (let move of (new Movist(movetexts.join("")).original.linise())) {
+    for (let move of (new Movist(movetexts.join(" ")).line)) {
       this.removeColors([...move.getAffectedStickers()]);
     }
     return this;
