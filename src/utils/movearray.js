@@ -30,7 +30,7 @@ export default class MoveArray extends Array {
   simplize () {
     return this
       .iriseNVbrackets()
-      .innerMinusExponent()
+      .normalize()
       .spliceMinimumIbracket()
       .spliceMostOutsideIbracket()
       .linise({depth: 1});
@@ -47,13 +47,13 @@ export default class MoveArray extends Array {
     let movrackets = new MoveArray();
     for (let movracket of this) {
       if (movracket instanceof Nbracket || movracket instanceof Vbracket) {
-        movrackets.push(movracket.applyFunctionToMovracket(MoveArray.spliceMinimumIbracket));
+        movrackets.push(movracket.apply(MoveArray.spliceMinimumIbracket));
       }
       else if (movracket instanceof Ibracket && movracket.isMinimum()) {
-        movrackets.concat(movracket.applyFunctionToMovracket(MoveArray.spliceMinimumIbracket).outerLine());
+        movrackets.concat(movracket.apply(MoveArray.spliceMinimumIbracket).outerLine());
       }
       else if (movracket instanceof Ibracket) {
-        movrackets.push(movracket.applyFunctionToMovracket(MoveArray.spliceMinimumIbracket));
+        movrackets.push(movracket.apply(MoveArray.spliceMinimumIbracket));
       }
       else if (movracket instanceof Movunit) {
         movrackets.push(movracket);
@@ -64,11 +64,11 @@ export default class MoveArray extends Array {
   static spliceMinimumIbracket (argumentMovrackets) {
     return argumentMovrackets.spliceMinimumIbracket();
   }
-  innerMinusExponent () {
+  normalize () {
     let movrackets = new MoveArray();
     for (let movracket of this) {
       if (movracket instanceof Nbracket || movracket instanceof Vbracket || movracket instanceof Ibracket) {
-        movrackets.push(movracket.innerMinusExponent().applyFunctionToMovracket(MoveArray.innerMinusExponent));
+        movrackets.push(movracket.normalize().apply(MoveArray.normalize));
       }
       else if (movracket instanceof Movunit) {
         movrackets.push(movracket);
@@ -76,17 +76,17 @@ export default class MoveArray extends Array {
     }
     return movrackets;
   }
-  static innerMinusExponent (argumentMovrackets) {
-    return argumentMovrackets.innerMinusExponent();
+  static normalize (argumentMovrackets) {
+    return argumentMovrackets.normalize();
   }
   iriseNVbrackets () {
     let movrackets = new MoveArray();
     for (let movracket of this) {
       if (movracket instanceof Nbracket || movracket instanceof Vbracket) {
-        movrackets.push(movracket.applyFunctionToMovracket(MoveArray.iriseNVbrackets).toIbracket());
+        movrackets.push(movracket.apply(MoveArray.iriseNVbrackets).toIbracket());
       }
       else if (movracket instanceof Ibracket) {
-        movrackets.push(movracket.applyFunctionToMovracket(MoveArray.iriseNVbrackets));
+        movrackets.push(movracket.apply(MoveArray.iriseNVbrackets));
       }
       else if (movracket instanceof Movunit) {
         movrackets.push(movracket);
@@ -223,8 +223,10 @@ export default class MoveArray extends Array {
         }
 
         movrackets.push(new Nbracket({
-          left: this.makeMovracketsFromText(left),
-          right: this.makeMovracketsFromText(right),
+          lines: [
+            this.makeMovracketsFromText(left),
+            this.makeMovracketsFromText(right)
+          ],
           exponent
         }));
       }
@@ -288,8 +290,10 @@ export default class MoveArray extends Array {
         }
 
         movrackets.push(new Vbracket({
-          left: this.makeMovracketsFromText(left),
-          right: this.makeMovracketsFromText(right),
+          lines: [
+            this.makeMovracketsFromText(left),
+            this.makeMovracketsFromText(right)
+          ],
           exponent
         }));
       }
@@ -333,7 +337,7 @@ export default class MoveArray extends Array {
         }
 
         movrackets.push(new Ibracket({
-          line: this.makeMovracketsFromText(line),
+          lines: [this.makeMovracketsFromText(line)],
           exponent
         }));
       }
@@ -361,12 +365,5 @@ export default class MoveArray extends Array {
 
     return movrackets;
   }
-  toString () {
-    let text = "";
-    for (let movracket of this) {
-      text += ` ${movracket.toString()}`;
-    }
-
-    return text.slice(1);
-  }
+  toString = () => (this.map(mov => mov.toString()).join(" "));
 }

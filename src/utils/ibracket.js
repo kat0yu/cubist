@@ -1,40 +1,34 @@
+import Bracket from "./bracket.js";
 import MoveArray from "./movearray.js";
 
-export default class Ibracket {
-  #line; #exponent;
-  constructor ({line, exponent}) {
-    if (!(line instanceof MoveArray)) {throw TypeError();}
-    this.#line = line;
-    this.#exponent = exponent;
+export default class Ibracket extends Bracket {
+  constructor ({lines, exponent}) {
+    if (lines.length != 1) {throw Error();}
+
+    super({lines, exponent});
   }
 
-  repeat (count) {
-    return new Ibracket({line: this.#line, exponent: this.#exponent * count});
+  conjugate () {
+    this.lines[0] = this.lines[0].reverse();
+    this.exponent *= -1;
+    return this;
+  }
+
+  linise ({depth = 0} = {}) {
+    return this.lines[0].repeat(this.exponent).linise({depth});
   }
 
   isMinimum () {
-    return this.#line.length == 1;
+    return this.lines[0].length == 1;
   }
   outerLine () {
-    return this.#line.repeat(this.#exponent);
-  }
-
-  innerMinusExponent () {
-    if (this.#exponent < 0) {
-      return new Ibracket({line: this.#line.repeat(-1), exponent: this.#exponent * -1});
-    } else {
-      return new Ibracket({line: this.#line, exponent: this.#exponent});
-    }
-  }
-  linise ({depth = 0} = {}) {
-    return this.#line.repeat(this.#exponent).linise({depth});
-  }
-
-  applyFunctionToMovracket (func) {
-    return new Ibracket({line: func(this.#line), exponent: this.#exponent});
+    return this.lines[0].repeat(this.exponent);
   }
 
   toString () {
-    return `(${this.#line.toString()})${this.#exponent<0? "'": ""}${Math.abs(this.#exponent)!=1? Math.abs(this.#exponent): ""}`;
+    const line = this.lines[0].toString();
+    const prime = this.exponent < 0? "'": "";
+    const abs = Math.abs(this.exponent);
+    return `(${line})${prime}${abs}`;
   }
 }
