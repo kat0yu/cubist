@@ -1,7 +1,7 @@
 import Face from "./face.js";
 import Sticker from "./sticker.js";
 
-export default class Move {
+export default class Movunit {
   #axis; #width; #start; #times;
   constructor ({axis, width, start, times}) {
     if (times == undefined) {throw TypeError()}
@@ -11,6 +11,9 @@ export default class Move {
     this.#times = times;
   }
 
+  isMovunit () {return true;}
+  isBracket () {return false;}
+
   getAxis () {
     return this.#axis;
   }
@@ -18,9 +21,9 @@ export default class Move {
     return this.#times;
   }
 
-  exponent (exponent) {
-    const finallyExponent = this.#times * exponent;
-    return new Move({axis: this.#axis, width: this.#width, start: this.#start, times: (finallyExponent<0? -1: 1) * ({0: 0, 1: 1, 2: 2, 3: -1}[Math.abs(finallyExponent)%4])});
+  repeat (count) {
+    const finallyCount = this.#times * count;
+    return new Movunit({axis: this.#axis, width: this.#width, start: this.#start, times: (finallyCount<0? -1: 1) * ({0: 0, 1: 1, 2: 2, 3: -1}[Math.abs(finallyCount)%4])});
   }
 
   *getAffectedStickers () {
@@ -84,8 +87,8 @@ export default class Move {
     return shift;
   }
 
-  static makeMoveFromText (text) {
-    return new Move({
+  static makeMovunitFromText (text) {
+    return new Movunit({
       axis: (new RegExp("[FBSz]").test(text))? 0: ((new RegExp("[RLMx]").test(text))? 1: 2),
       width: (new RegExp("[xyz]").test(text))? 3: ((new RegExp("w").test(text))? 2: 1),
       start: (new RegExp("[FRUxyz]").test(text))? 0: ((new RegExp("([BLD]w|[SME])").test(text))? 1: 2),

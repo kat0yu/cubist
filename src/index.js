@@ -1,3 +1,4 @@
 import Cubist from "./cores/cubist.js";
+import Movist from "./cores/movist.js";
 
-export default Cubist;
+export {Cubist, Movist};

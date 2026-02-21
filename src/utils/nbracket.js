@@ -1,43 +1,36 @@
 import Ibracket from "./ibracket.js";
-import Movrackets from "./movrackets.js";
+import Vbracket from "./vbracket.js";
+import MoveArray from "./movearray.js";
 
-export default class Nbracket {
-  #left; #right; #exponent;
-  constructor ({left, right, exponent}) {
-    if (!(left instanceof Movrackets)) {throw TypeError();}
-    if (!(right instanceof Movrackets)) {throw TypeError();}
-    this.#left = left;
-    this.#right = right;
-    this.#exponent = exponent;
-  }
-
-  exponent (exponent) {
-    return new Nbracket({left: this.#left, right: this.#right, exponent: this.#exponent * exponent});
-  }
+export default class Nbracket extends Vbracket {
+  isVbracket () {return false;}
+  isNbracket () {return true;}
 
   toIbracket () {
     return new Ibracket({
-      line: new Movrackets({movrackets: [new Ibracket({line: this.#left, exponent: 1}), new Ibracket({line: this.#right, exponent: 1}), new Ibracket({line: this.#left, exponent: -1}), new Ibracket({line: this.#right, exponent: -1})]}),
-      exponent: this.#exponent
+      lines: [new MoveArray(
+        new Ibracket({lines: [this.lines[0]], exponent: 1}),
+        new Ibracket({lines: [this.lines[1]], exponent: 1}),
+        new Ibracket({lines: [this.lines[0]], exponent: -1}),
+        new Ibracket({lines: [this.lines[1]], exponent: -1})
+      )],
+      exponent: this.exponent
     });
   }
 
-  innerMinusExponent () {
-    if (this.#exponent < 0) {
-      return new Nbracket({left: this.#right.exponent(-1), right: this.#left.exponent(-1), exponent: this.#exponent * -1});
-    } else {
-      return new Nbracket({left: this.#left, right: this.#right, exponent: this.#exponent});
-    }
-  }
-  linise ({depth = 0} = {}) {
-    return this.toIbracket().linise({depth});
-  }
-  
-  applyFunctionToMovracket (func) {
-    return new Nbracket({left: func(this.#left), right: func(this.#right) , exponent: this.#exponent});
+  conjugate () {
+    this.lines[0] = this.lines[0].reverse();
+    this.lines[1] = this.lines[1].reverse();
+    this.exponent *= -1;
+    return this;
   }
 
   toString () {
-    return `[${this.#left.toString()}, ${this.#right.toString()}]${this.#exponent<0? "'": ""}${Math.abs(this.#exponent)!=1? Math.abs(this.#exponent): ""}`;
+    const left = this.lines[0].toString();
+    const right = this.lines[1].toString();
+    const prime = this.exponent < 0? "'": "";
+    const abs = Math.abs(this.exponent);
+    const exp = abs != 1? abs: "";
+    return `[${left}, ${right}]${prime}${exp}`;
   }
 }
