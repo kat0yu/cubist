@@ -36,6 +36,7 @@ export default class Vbracket extends Bracket {
     const right = this.lines[1].toString();
     const prime = this.exponent < 0? "'": "";
     const abs = Math.abs(this.exponent);
-    return `{${left}, ${right}}${prime}${abs}`;
+    const exp = abs != 1? abs: "";
+    return `{${left}, ${right}}${prime}${exp}`;
   }
 }

@@ -258,5 +258,15 @@ export default class Movist {
     }
 
     this.original = recursion(text);
+    console.group();
+    console.log(text);
+    console.log(this.original.toString());
+    console.log(this.original.iriseNVbrackets().toString());
+    console.log(this.original.normalize().toString());
+    console.log(this.original.spliceMinimumIbracket().toString());
+    console.log(this.original.spliceMostOutsideIbracket().toString());
+    console.log(this.original.simplize().toString());
+    console.log(this.original.linise().toString());
+    console.groupEnd();
   }
 }

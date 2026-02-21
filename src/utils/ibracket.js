@@ -9,6 +9,8 @@ export default class Ibracket extends Bracket {
 
   isIbracket () {return true;}
 
+  toIbracket () {return this;}
+
   conjugate () {
     this.lines[0] = this.lines[0].reverse();
     this.exponent *= -1;
@@ -16,20 +18,19 @@ export default class Ibracket extends Bracket {
   }
 
   linise ({depth = 0} = {}) {
+    if (this.exponent == 1) {return this.lines[0].linise();}
     return this.lines[0].repeat(this.exponent).linise({depth});
   }
 
   isMinimum () {
     return this.lines[0].length == 1;
   }
-  outerLine () {
-    return this.lines[0].repeat(this.exponent);
-  }
 
   toString () {
     const line = this.lines[0].toString();
     const prime = this.exponent < 0? "'": "";
     const abs = Math.abs(this.exponent);
-    return `(${line})${prime}${abs}`;
+    const exp = abs != 1? abs: "";
+    return `(${line})${prime}${exp}`;
   }
 }

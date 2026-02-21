@@ -21,7 +21,7 @@ export default class Bracket {
   }
 
   conjugate () {}
-  normalize = () => {
+  normalize () {
     return this.exponent >= 0? this: this.conjugate();
   }
   linise ({depth = 0} = {}) {}

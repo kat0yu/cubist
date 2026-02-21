@@ -32,8 +32,8 @@ export default class MoveArray extends Array {
   }
 
   spliceMostOutsideIbracket () {
-    if (this.length == 1 && (this[0].isIbracket())) {
-      return this[0].outerLine();
+    if (this.length == 1 && this[0].isBracket() && this[0].isIbracket()) {
+      return this[0].lines[0];
     } else {
       return this;
     }
@@ -46,7 +46,7 @@ export default class MoveArray extends Array {
           movrackets.push(movracket.apply(MoveArray.spliceMinimumIbracket));
         }
         else if (movracket.isIbracket() && movracket.isMinimum()) {
-          movrackets.concat(movracket.apply(MoveArray.spliceMinimumIbracket).outerLine());
+          movrackets = movrackets.concat(movracket.apply(MoveArray.spliceMinimumIbracket).linise());
         }
         else if (movracket.isIbracket()) {
           movrackets.push(movracket.apply(MoveArray.spliceMinimumIbracket));

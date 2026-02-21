@@ -3,6 +3,9 @@ import Vbracket from "./vbracket.js";
 import MoveArray from "./movearray.js";
 
 export default class Nbracket extends Vbracket {
+  isVbracket () {return false;}
+  isNbracket () {return true;}
+
   toIbracket () {
     return new Ibracket({
       lines: [new MoveArray(
@@ -14,9 +17,6 @@ export default class Nbracket extends Vbracket {
       exponent: this.exponent
     });
   }
-
-  isVbracket () {return false;}
-  isNbracket () {return true;}
 
   conjugate () {
     this.lines[0] = this.lines[0].reverse();
@@ -30,6 +30,7 @@ export default class Nbracket extends Vbracket {
     const right = this.lines[1].toString();
     const prime = this.exponent < 0? "'": "";
     const abs = Math.abs(this.exponent);
-    return `[${left}, ${right}]${prime}${abs}`;
+    const exp = abs != 1? abs: "";
+    return `[${left}, ${right}]${prime}${exp}`;
   }
 }
