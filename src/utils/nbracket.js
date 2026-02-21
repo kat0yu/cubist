@@ -15,6 +15,9 @@ export default class Nbracket extends Vbracket {
     });
   }
 
+  isVbracket () {return false;}
+  isNbracket () {return true;}
+
   conjugate () {
     this.lines[0] = this.lines[0].reverse();
     this.lines[1] = this.lines[1].reverse();

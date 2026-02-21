@@ -23,7 +23,7 @@ head
 ```html
 <head>
   <script type="module">
-    import Cubist from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
+    import {Cubist, Movist} from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
 
     const cube1 = new Cubist(document.getElementById("cube1"));
     cube1.fullColors();

@@ -11,6 +11,9 @@ export default class Movunit {
     this.#times = times;
   }
 
+  isMovunit () {return true;}
+  isBracket () {return false;}
+
   getAxis () {
     return this.#axis;
   }

@@ -9,6 +9,8 @@ export default class Vbracket extends Bracket {
     super({lines, exponent});
   }
 
+  isVbracket () {return true;}
+
   toIbracket () {
     return new Ibracket({
       lines: [new MoveArray(

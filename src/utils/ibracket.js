@@ -1,5 +1,4 @@
 import Bracket from "./bracket.js";
-import MoveArray from "./movearray.js";
 
 export default class Ibracket extends Bracket {
   constructor ({lines, exponent}) {
@@ -7,6 +6,8 @@ export default class Ibracket extends Bracket {
 
     super({lines, exponent});
   }
+
+  isIbracket () {return true;}
 
   conjugate () {
     this.lines[0] = this.lines[0].reverse();

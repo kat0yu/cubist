@@ -3,7 +3,7 @@ import Threedee from "../utils/threedee.js";
 import Face from "../utils/face.js";
 import Sticker from "../utils/sticker.js";
 
-import MoveArray from "../utils/movearray.js";
+import Movist from "./movist.js";
 
 export default class Cubist {
   static SVGURL = "http://www.w3.org/2000/svg";
@@ -244,13 +244,13 @@ export default class Cubist {
     return this.removeColors(stickers);
   }
   removeColorsByMove (...movetexts) {
-    for (let move of MoveArray.makeMovracketsFromText(movetexts.join("")).linise()) {
+    for (let move of (new Movist(movetexts.join("")).original.linise())) {
       this.removeColors([...move.getAffectedStickers()]);
     }
     return this;
   }
   moveColorsByMove (movetext, reversed = false) {
-    let moves = MoveArray.makeMovracketsFromText(movetext);
+    let moves = new Movist(movetext).original;
     if (reversed) {moves = moves.exponent(-1);}
     moves = moves.linise();
     for (let move of moves) {
@@ -263,7 +263,7 @@ export default class Cubist {
     return this;
   }
   getAnimateByMove (movetext, option = {}) {
-    return this.getAnimate([...MoveArray.makeMovracketsFromText(movetext).linise()], option);
+    return this.getAnimate([...(new Movist(movetext).original.linise())], option);
   }
 
   static digitize (cordinates) {

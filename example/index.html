@@ -5,10 +5,9 @@
   <link rel="stylesheet" href="./style.css">
 
   <script type="module">
-    // import Cubist from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
-    import Cubist from "../src/index.js";
+    import {Cubist, Movist} from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
 
-    const indexs = [0,1,2,3,4,5,6,7];
+    const indexs = [0,1,2,3,4,5,6,7,8];
     const cubes = indexs.map(i => new Cubist(document.getElementById(`cube${i}`)));
 
     indexs.filter(i => i > 0).map(i => cubes[i].fullColors());
@@ -17,9 +16,10 @@
     cubes[3].removeColorsByFace("U");
     cubes[4].removeColorsBySticker("FD", "ULB");
     cubes[5].removeColorsByMove("M","U");
-    cubes[6].moveColorsByMove("{{R, U'}, U'} [F' R U, R']");
-    const animate7_1 = cubes[7].getAnimateByMove("{{R, U'}, U'} [F' R U, R']");
-    document.getElementById("animate7_1").addEventListener("click", animate7_1);
+    cubes[6].setClear();
+    cubes[7].moveColorsByMove("{{R, U'}, U'} [F' R U, R']");
+    const animate8_1 = cubes[8].getAnimateByMove("{{R, U'}, U'} [F' R U, R']");
+    document.getElementById("animate8_1").addEventListener("click", animate8_1);
   </script>
 </head>
 <body>
@@ -43,12 +43,15 @@
     <p class="mt16"><code>.removeColorsByMove("M", "U")</code></p>
     <div class="cube" id="cube5"></div>
 
-    <p class="mt16"><code>.moveColorsByMove("{{R, U'}, U'} [F' R U, R']")</code></p>
+    <p class="mt16"><code>.setClear()</code></p>
     <div class="cube" id="cube6"></div>
 
-    <p class="mt16"><code>.getAnimateByMove("{{R, U'}, U'} [F' R U, R']")</code></p>
-    <button type="button" id="animate7_1">ここをクリック</button>
+    <p class="mt16"><code>.moveColorsByMove("{{R, U'}, U'} [F' R U, R']")</code></p>
     <div class="cube" id="cube7"></div>
+
+    <p class="mt16"><code>.getAnimateByMove("{{R, U'}, U'} [F' R U, R']")</code></p>
+    <button type="button" id="animate8_1">ここをクリック</button>
+    <div class="cube" id="cube8"></div>
   </main>
 </body>
 </html>
