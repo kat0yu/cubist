@@ -30,13 +30,4 @@ export default class Vbracket extends Bracket {
   linise ({depth = 0} = {}) {
     return this.toIbracket().linise({depth});
   }
-
-  toString () {
-    const left = this.lines[0].toString();
-    const right = this.lines[1].toString();
-    const prime = this.exponent < 0? "'": "";
-    const abs = Math.abs(this.exponent);
-    const exp = abs != 1? abs: "";
-    return `{${left}, ${right}}${prime}${exp}`;
-  }
 }

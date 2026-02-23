@@ -24,13 +24,4 @@ export default class Nbracket extends Vbracket {
     this.exponent *= -1;
     return this;
   }
-
-  toString () {
-    const left = this.lines[0].toString();
-    const right = this.lines[1].toString();
-    const prime = this.exponent < 0? "'": "";
-    const abs = Math.abs(this.exponent);
-    const exp = abs != 1? abs: "";
-    return `[${left}, ${right}]${prime}${exp}`;
-  }
 }

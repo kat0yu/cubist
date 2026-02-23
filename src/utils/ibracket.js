@@ -25,12 +25,4 @@ export default class Ibracket extends Bracket {
   isMinimum () {
     return this.lines[0].length == 1;
   }
-
-  toString () {
-    const line = this.lines[0].toString();
-    const prime = this.exponent < 0? "'": "";
-    const abs = Math.abs(this.exponent);
-    const exp = abs != 1? abs: "";
-    return `(${line})${prime}${exp}`;
-  }
 }

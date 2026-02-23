@@ -32,7 +32,7 @@ export default class MoveArray extends Array {
   }
 
   spliceMostOutsideIbracket () {
-    if (this.length == 1 && this[0].isBracket() && this[0].isIbracket()) {
+    if (this.length == 1 && this[0].isBracket() && this[0].isIbracket() && this[0].exponent == 1) {
       return this[0].lines[0];
     } else {
       return this;
@@ -43,13 +43,13 @@ export default class MoveArray extends Array {
     for (let movracket of this) {
       if (movracket.isBracket()) {
         if (movracket.isNbracket() || movracket.isVbracket()) {
-          movrackets.push(movracket.apply(MoveArray.spliceMinimumIbracket));
+          movrackets.push(movracket.apply((line) => line.spliceMinimumIbracket()));
         }
         else if (movracket.isIbracket() && movracket.isMinimum()) {
-          movrackets = movrackets.concat(movracket.apply(MoveArray.spliceMinimumIbracket).linise());
+          movrackets = movrackets.concat(movracket.apply((line) => line.spliceMinimumIbracket()).linise());
         }
         else if (movracket.isIbracket()) {
-          movrackets.push(movracket.apply(MoveArray.spliceMinimumIbracket));
+          movrackets.push(movracket.apply((line) => line.spliceMinimumIbracket()));
         }
       } else if (movracket.isMovunit()) {
         movrackets.push(movracket);
@@ -57,41 +57,32 @@ export default class MoveArray extends Array {
     }
     return movrackets;
   }
-  static spliceMinimumIbracket (argumentMovrackets) {
-    return argumentMovrackets.spliceMinimumIbracket();
-  }
   normalize () {
     let movrackets = new MoveArray();
     for (let movracket of this) {
       if (movracket.isBracket()) {
-        movrackets.push(movracket.normalize().apply(MoveArray.normalize));
+        movrackets.push(movracket.normalize().apply((line) => line.normalize()));
       }
       else if (movracket.isMovunit()) {
         movrackets.push(movracket);
       }
     }
     return movrackets;
-  }
-  static normalize (argumentMovrackets) {
-    return argumentMovrackets.normalize();
   }
   iriseNVbrackets () {
     let movrackets = new MoveArray();
     for (let movracket of this) {
       if (movracket.isBracket() && (movracket.isNbracket() || movracket.isVbracket())) {
-        movrackets.push(movracket.apply(MoveArray.iriseNVbrackets).toIbracket());
+        movrackets.push(movracket.apply((line) => line.iriseNVbrackets()).toIbracket());
       }
       else if (movracket.isBracket() && movracket.isIbracket()) {
-        movrackets.push(movracket.apply(MoveArray.iriseNVbrackets));
+        movrackets.push(movracket.apply((line) => line.iriseNVbrackets()));
       }
       else if (movracket.isMovunit()) {
         movrackets.push(movracket);
       }
     }
     return movrackets;
-  }
-  static iriseNVbrackets (argumentMovrackets) {
-    return argumentMovrackets.iriseNVbrackets();
   }
   linise ({depth = 0} = {}) {
     if (depth > 0) {
@@ -110,6 +101,4 @@ export default class MoveArray extends Array {
       return movrackets;
     }
   }
-
-  toString = () => (this.map(mov => mov.toString()).join(" "));
 }
