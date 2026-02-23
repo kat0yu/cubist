@@ -7,7 +7,7 @@
   <script type="module">
     import {Cubist, Movist} from "https://cdn.jsdelivr.net/gh/kat0yu/cubist/src/index.js";
 
-    const indexs = [0,1,2,3,4,5,6,7,8];
+    const indexs = [0,1,2,3,4,5,6,7,8,9];
     const cubes = indexs.map(i => new Cubist(document.getElementById(`cube${i}`)));
 
     indexs.filter(i => i > 0).map(i => cubes[i].fullColors());
@@ -20,10 +20,23 @@
 
     const move7_1 = document.getElementById("move7_1").textContent;
     cubes[7].moveColorsByMove(move7_1);
-    
+
     const move8_1 = document.getElementById("move8_1").textContent;
-    const animate8_1 = cubes[8].getAnimateByMove(move8_1);
-    document.getElementById("animate8_1").addEventListener("click", animate8_1);
+    cubes[8].moveColorsByMove(move8_1);
+    
+    for (let i of [0,1]) {
+      const move9 = document.getElementById(`move9_${i}`).textContent;
+      const animate9 = cubes[9].getAnimateByMove(move9);
+      document.getElementById(`animate9_${i}`).addEventListener("click", animate9);
+    }
+
+    for (let i of [0,1]) {
+      const move = new Movist(document.getElementById(`move${i}`).textContent);
+      document.getElementById(`move${i}-a`).textContent = move.normal;
+      document.getElementById(`move${i}-b`).textContent = move.simple;
+      document.getElementById(`move${i}-c`).textContent = move.line;
+      console.log(move);
+    }
   </script>
 </head>
 <body>
@@ -53,9 +66,24 @@
     <p class="mt16"><code>.moveColorsByMove("<span id="move7_1">{{R, U'}, U'} [F' R U, R']</span>")</code></p>
     <div class="cube" id="cube7"></div>
 
-    <p class="mt16"><code>.getAnimateByMove("<span id="move8_1">{{R, U'}, U'} [F' R U, R']</span>")</code></p>
-    <button type="button" id="animate8_1">ここをクリック</button>
+    <p class="mt16"><code>.moveColorsByMove("<span id="move8_1">{F, [E', {R, U}]} M2</span>")</code></p>
     <div class="cube" id="cube8"></div>
+
+    <p class="mt16"><code>.getAnimateByMove("<span id="move9_0">{{R, U'}, U'} [F' R U, R']</span>")</code></p>
+    <p class="mt16"><code>.getAnimateByMove("<span id="move9_1">{F, [E', {R, U}]} M2</span>")</code></p>
+    <button type="button" id="animate9_0">ここをクリック</button>
+    <button type="button" id="animate9_1">ここをクリック</button>
+    <div class="cube" id="cube9"></div>
+    
+    <p class="mt16">original: <code id="move0">{F, [E', {R, U}]} M2</code></p>
+    <p>-> normal: <code id="move0-a"></code></p>
+    <p>-> simple: <code id="move0-b"></code></p>
+    <p>-> line: <code id="move0-c"></code></p>
+    
+    <p class="mt16">original: <code id="move1">{{R, U'}, U'} [F' R U, R']</code></p>
+    <p>-> normal: <code id="move1-a"></code></p>
+    <p>-> simple: <code id="move1-b"></code></p>
+    <p>-> line: <code id="move1-c"></code></p>
   </main>
 </body>
 </html>

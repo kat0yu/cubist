@@ -14,6 +14,11 @@ export default class Movunit {
   isMovunit () {return true;}
   isBracket () {return false;}
 
+  get axis () {return this.#axis;}
+  get width () {return this.#width;}
+  get start () {return this.#start;}
+  get times () {return this.#times;}
+  
   getAxis () {
     return this.#axis;
   }
@@ -22,8 +27,12 @@ export default class Movunit {
   }
 
   repeat (count) {
-    const finallyCount = this.#times * count;
-    return new Movunit({axis: this.#axis, width: this.#width, start: this.#start, times: (finallyCount<0? -1: 1) * ({0: 0, 1: 1, 2: 2, 3: -1}[Math.abs(finallyCount)%4])});
+    return new Movunit({
+      axis: this.#axis,
+      width: this.#width,
+      start: this.#start,
+      times: (this.#times*count<0? -1: 1) * ({0: 0, 1: 1, 2: 2, 3: -1}[Math.abs(this.#times*count)%4])
+    });
   }
 
   *getAffectedStickers () {
@@ -85,23 +94,5 @@ export default class Movunit {
     }
 
     return shift;
-  }
-
-  static makeMovunitFromText (text) {
-    return new Movunit({
-      axis: (new RegExp("[FBSz]").test(text))? 0: ((new RegExp("[RLMx]").test(text))? 1: 2),
-      width: (new RegExp("[xyz]").test(text))? 3: ((new RegExp("w").test(text))? 2: 1),
-      start: (new RegExp("[FRUxyz]").test(text))? 0: ((new RegExp("([BLD]w|[SME])").test(text))? 1: 2),
-      times: ((new RegExp("[BLDSM]").test(text))? -1: 1) * (new RegExp("'").test(text)? -1: 1) * (new RegExp("2").test(text)? 2: 1)
-    });
-  }
-  toString () {
-    if (this.#width == 1) {
-      return `${[["F","S","B"],["R","M","L"],["U","E","D"]][this.#axis][this.#start]}${{"-1":"'","1":""}[((this.#start==2)? -1: 1) * ((this.#times<0)? -1: 1)]}${(Math.abs(this.#times)==2)? "2": ""}`;
-    } else if (this.#width == 2) {
-      return `${[["F","B"],["R","L"],["U","D"]][this.#axis][this.#start]}w${{"-1":"'","1":""}[((this.#start==1)? -1: 1) * ((this.#times<0)? -1: 1)]}${(Math.abs(this.#times)==2)? "2": ""}`;
-    } else {
-      return `${["z","x","y"][this.#axis]}${{"-1":"'","1":""}[(this.#times<0)? -1: 1]}${(Math.abs(this.#times)==2)? "2": ""}`;
-    }
   }
 }

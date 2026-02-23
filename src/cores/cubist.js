@@ -244,14 +244,14 @@ export default class Cubist {
     return this.removeColors(stickers);
   }
   removeColorsByMove (...movetexts) {
-    for (let move of (new Movist(movetexts.join(" ")).line)) {
+    for (let move of (new Movist(movetexts.join(" ")).array)) {
       this.removeColors([...move.getAffectedStickers()]);
     }
     return this;
   }
   moveColorsByMove (movetext, reversed = false) {
-    let moves = new Movist(movetext).original;
-    if (reversed) {moves = moves.exponent(-1);}
+    let moves = new Movist(movetext).array;
+    if (reversed) {moves = moves.reverse();}
     moves = moves.linise();
     for (let move of moves) {
       this.moveColors(move);
@@ -263,7 +263,7 @@ export default class Cubist {
     return this;
   }
   getAnimateByMove (movetext, option = {}) {
-    return this.getAnimate([...(new Movist(movetext).original.linise())], option);
+    return this.getAnimate([...(new Movist(movetext).array.linise())], option);
   }
 
   static digitize (cordinates) {
