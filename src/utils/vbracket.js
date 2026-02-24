@@ -1,15 +1,27 @@
-import Bracket from "./bracket.js";
 import Ibracket from "./ibracket.js";
 import MoveArray from "./movearray.js";
 
-export default class Vbracket extends Bracket {
+export default class Vbracket {
   constructor ({lines, exponent}) {
     if (lines.length != 2) {throw Error();}
 
-    super({lines, exponent});
+    this.lines = lines;
+    this.exponent = exponent;
   }
 
+  isMovunit () {return false;}
+  isBracket () {return true;}
+  isIbracket () {return false;}
   isVbracket () {return true;}
+  isNbracket () {return false;}
+
+  repeat (count) {
+    this.exponent *= count;
+    return this;
+  }
+  reverse (bool = true) {
+    return !bool? this: this.repeat(-1);
+  }
 
   toIbracket () {
     return new Ibracket({
@@ -23,11 +35,20 @@ export default class Vbracket extends Bracket {
   }
 
   conjugate () {
+    this.lines[0] = this.lines[0].reverse();
     this.lines[1] = this.lines[1].reverse();
     this.exponent *= -1;
     return this;
   }
+  normalize () {
+    return this.exponent >= 0? this: this.conjugate();
+  }
   linise ({depth = 0} = {}) {
     return this.toIbracket().linise({depth});
+  }
+  
+  apply (func) {
+    this.lines = this.lines.map(line => func(line));
+    return this;
   }
 }
