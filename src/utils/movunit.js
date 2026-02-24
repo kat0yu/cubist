@@ -18,13 +18,6 @@ export default class Movunit {
   get width () {return this.#width;}
   get start () {return this.#start;}
   get times () {return this.#times;}
-  
-  getAxis () {
-    return this.#axis;
-  }
-  getTimes () {
-    return this.#times;
-  }
 
   repeat (count) {
     return new Movunit({
