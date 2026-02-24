@@ -35,7 +35,7 @@
       document.getElementById(`move${i}-a`).textContent = move.normal;
       document.getElementById(`move${i}-b`).textContent = move.simple;
       document.getElementById(`move${i}-c`).textContent = move.line;
-      console.log(move);
+      document.getElementById(`move${i}-d`).textContent = move.original;
     }
   </script>
 </head>
@@ -76,14 +76,16 @@
     <div class="cube" id="cube9"></div>
     
     <p class="mt16">original: <code id="move0">{F, [E', {R, U}]} M2</code></p>
-    <p>-> normal: <code id="move0-a"></code></p>
-    <p>-> simple: <code id="move0-b"></code></p>
-    <p>-> line: <code id="move0-c"></code></p>
+    <p>-> <code>.normal</code> = <code id="move0-a"></code></p>
+    <p>-> <code>.simple</code> = <code id="move0-b"></code></p>
+    <p>-> <code>.line</code> = <code id="move0-c"></code></p>
+    <p>-> <code>.original</code> = <code id="move0-d"></code></p>
     
     <p class="mt16">original: <code id="move1">{{R, U'}, U'} [F' R U, R']</code></p>
-    <p>-> normal: <code id="move1-a"></code></p>
-    <p>-> simple: <code id="move1-b"></code></p>
-    <p>-> line: <code id="move1-c"></code></p>
+    <p>-> <code>.normal</code> = <code id="move1-a"></code></p>
+    <p>-> <code>.simple</code> = <code id="move1-b"></code></p>
+    <p>-> <code>.line</code> = <code id="move1-c"></code></p>
+    <p>-> <code>.original</code> = <code id="move1-d"></code></p>
   </main>
 </body>
 </html>
