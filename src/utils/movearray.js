@@ -42,7 +42,7 @@ export default class MoveArray extends Array {
     let movrackets = new MoveArray();
     for (let movracket of this) {
       if (movracket.isBracket()) {
-        if (movracket.isNbracket() || movracket.isVbracket()) {
+        if (movracket.isCommutator() || movracket.isConjugator()) {
           movrackets.push(movracket.apply((line) => line.spliceMinimumIbracket()));
         }
         else if (movracket.isIbracket() && movracket.isMinimum()) {
@@ -72,7 +72,7 @@ export default class MoveArray extends Array {
   iriseNVbrackets () {
     let movrackets = new MoveArray();
     for (let movracket of this) {
-      if (movracket.isBracket() && (movracket.isNbracket() || movracket.isVbracket())) {
+      if (movracket.isBracket() && (movracket.isCommutator() || movracket.isConjugator())) {
         movrackets.push(movracket.apply((line) => line.iriseNVbrackets()).toIbracket());
       }
       else if (movracket.isBracket() && movracket.isIbracket()) {

@@ -1,7 +1,7 @@
 import Movunit from "../utils/movunit.js";
 import Ibracket from "../utils/ibracket.js";
-import Vbracket from "../utils/vbracket.js";
-import Nbracket from "../utils/nbracket.js";
+import Conjugator from "../utils/conjugator.js";
+import Commutator from "../utils/commutator.js";
 import MoveArray from "../utils/movearray.js";
 
 export default class Movist {
@@ -129,7 +129,7 @@ export default class Movist {
           }
         }
 
-        movrackets.push(new Nbracket({
+        movrackets.push(new Commutator({
           lines: [
             Movist.#makeMoveArrayFromText(left),
             Movist.#makeMoveArrayFromText(right)
@@ -196,7 +196,7 @@ export default class Movist {
           }
         }
 
-        movrackets.push(new Vbracket({
+        movrackets.push(new Conjugator({
           lines: [
             Movist.#makeMoveArrayFromText(left),
             Movist.#makeMoveArrayFromText(right)
@@ -287,8 +287,8 @@ export default class Movist {
   static #stringifyMove (move) {
     if (move.isMovunit()) {return Movist.#stringifyMovunit(move);}
     else if (move.isBracket() && move.isIbracket()) {return Movist.#stringifyIbracket(move);}
-    else if (move.isBracket() && move.isVbracket()) {return Movist.#stringifyVbracket(move);}
-    else if (move.isBracket() && move.isNbracket()) {return Movist.#stringifyNbracket(move);}
+    else if (move.isBracket() && move.isConjugator()) {return Movist.#stringifyConjugator(move);}
+    else if (move.isBracket() && move.isCommutator()) {return Movist.#stringifyCommutator(move);}
   }
   static #stringifyMovunit (movunit) {
     const character = [
@@ -317,10 +317,10 @@ export default class Movist {
   static #stringifyIbracket (ibracket) {
     return Movist.#stringifyBracket(ibracket, ({lines, prime, exp}) => `(${lines[0]})${prime}${exp}`);
   }
-  static #stringifyVbracket (vbracket) {
-    return Movist.#stringifyBracket(vbracket, ({lines, prime, exp}) => `{${lines[0]}, ${lines[1]}}${prime}${exp}`);
+  static #stringifyConjugator (Conjugator) {
+    return Movist.#stringifyBracket(Conjugator, ({lines, prime, exp}) => `{${lines[0]}, ${lines[1]}}${prime}${exp}`);
   }
-  static #stringifyNbracket (nbracket) {
-    return Movist.#stringifyBracket(nbracket, ({lines, prime, exp}) => `[${lines[0]}, ${lines[1]}]${prime}${exp}`);
+  static #stringifyCommutator (commutator) {
+    return Movist.#stringifyBracket(commutator, ({lines, prime, exp}) => `[${lines[0]}, ${lines[1]}]${prime}${exp}`);
   }
 }

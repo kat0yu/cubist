@@ -1,7 +1,7 @@
 import Ibracket from "./ibracket.js";
 import MoveArray from "./movearray.js";
 
-export default class Vbracket {
+export default class Commutator {
   constructor ({lines, exponent}) {
     if (lines.length != 2) {throw Error();}
 
@@ -12,8 +12,8 @@ export default class Vbracket {
   isMovunit () {return false;}
   isBracket () {return true;}
   isIbracket () {return false;}
-  isVbracket () {return true;}
-  isNbracket () {return false;}
+  isConjugator () {return false;}
+  isCommutator () {return true;}
 
   repeat (count) {
     this.exponent *= count;
@@ -28,7 +28,8 @@ export default class Vbracket {
       lines: [new MoveArray(
         new Ibracket({lines: [this.lines[0]], exponent: 1}),
         new Ibracket({lines: [this.lines[1]], exponent: 1}),
-        new Ibracket({lines: [this.lines[0]], exponent: -1})
+        new Ibracket({lines: [this.lines[0]], exponent: -1}),
+        new Ibracket({lines: [this.lines[1]], exponent: -1})
       )],
       exponent: this.exponent
     });

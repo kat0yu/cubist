@@ -9,8 +9,8 @@ export default class Ibracket {
   isMovunit () {return false;}
   isBracket () {return true;}
   isIbracket () {return true;}
-  isVbracket () {return false;}
-  isNbracket () {return false;}
+  isConjugator () {return false;}
+  isCommutator () {return false;}
 
   toIbracket () {return this;}
 
