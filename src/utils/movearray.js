@@ -22,6 +22,10 @@ export default class MoveArray extends Array {
     return movs;
   }
 
+  copy () {
+    return new MoveArray(...(this.map(move => move.copy())));
+  }
+
   simplize () {
     return this
       .iriseNVbrackets()

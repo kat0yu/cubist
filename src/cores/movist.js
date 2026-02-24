@@ -11,9 +11,9 @@ export default class Movist {
   #line;
   constructor (text) {
     this.#original = Movist.#makeMoveArrayFromText(text);
-    this.#normal = Movist.#makeMoveArrayFromText(text).normalize();
-    this.#simple = Movist.#makeMoveArrayFromText(text).simplize();
-    this.#line = Movist.#makeMoveArrayFromText(text).linise();
+    this.#normal = this.#original.copy().normalize();
+    this.#simple = this.#original.copy().simplize();
+    this.#line = this.#original.copy().linise();
   }
 
   get original () {return Movist.#stringify(this.#original);}

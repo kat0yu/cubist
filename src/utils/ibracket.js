@@ -12,6 +12,13 @@ export default class Ibracket {
   isConjugator () {return false;}
   isCommutator () {return false;}
 
+  copy () {
+    return new Ibracket({
+      lines: this.lines.map(line => line.copy()),
+      exponent: this.exponent
+    });
+  }
+
   toIbracket () {return this;}
 
   repeat (count) {

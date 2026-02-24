@@ -15,6 +15,13 @@ export default class Conjugator {
   isConjugator () {return true;}
   isCommutator () {return false;}
 
+  copy () {
+    return new Conjugator({
+      lines: this.lines.map(line => line.copy()),
+      exponent: this.exponent
+    });
+  }
+
   repeat (count) {
     this.exponent *= count;
     return this;
