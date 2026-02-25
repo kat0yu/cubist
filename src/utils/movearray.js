@@ -7,14 +7,14 @@ export default class MoveArray extends Array {
           movrackets.push(mov);
         }
       } else {
-        for (let mov of this.reverse()) {
+        for (let mov of this.inverse()) {
           movrackets.push(mov);
         }
       }
     }
     return movrackets;
   }
-  reverse () {
+  inverse () {
     let movs = new MoveArray();
     for (let i=this.length-1; i>=0; i--) {
       movs.push(this[i].repeat(-1));

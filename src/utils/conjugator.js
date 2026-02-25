@@ -26,7 +26,7 @@ export default class Conjugator {
     this.exponent *= count;
     return this;
   }
-  reverse (bool = true) {
+  inverse (bool = true) {
     return !bool? this: this.repeat(-1);
   }
 
@@ -42,7 +42,7 @@ export default class Conjugator {
   }
 
   conjugate () {
-    this.lines[1] = this.lines[1].reverse();
+    this.lines[1] = this.lines[1].inverse();
     this.exponent *= -1;
     return this;
   }

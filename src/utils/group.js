@@ -25,12 +25,12 @@ export default class Group {
     this.exponent *= count;
     return this;
   }
-  reverse (bool = true) {
+  inverse (bool = true) {
     return !bool? this: this.repeat(-1);
   }
 
   conjugate () {
-    this.lines[0] = this.lines[0].reverse();
+    this.lines[0] = this.lines[0].inverse();
     this.exponent *= -1;
     return this;
   }

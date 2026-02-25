@@ -26,7 +26,7 @@ export default class Commutator {
     this.exponent *= count;
     return this;
   }
-  reverse (bool = true) {
+  inverse (bool = true) {
     return !bool? this: this.repeat(-1);
   }
 

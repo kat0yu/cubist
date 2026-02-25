@@ -249,9 +249,9 @@ export default class Cubist {
     }
     return this;
   }
-  moveColorsByMove (movetext, reversed = false) {
+  moveColorsByMove (movetext, inversed = false) {
     let moves = new Movist(movetext).array;
-    if (reversed) {moves = moves.reverse();}
+    if (inversed) {moves = moves.inverse();}
     moves = moves.linise();
     for (let move of moves) {
       this.moveColors(move);
