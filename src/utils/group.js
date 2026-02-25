@@ -1,4 +1,4 @@
-export default class Ibracket {
+export default class Group {
   constructor ({lines, exponent}) {
     if (lines.length != 1) {throw Error();}
 
@@ -8,18 +8,18 @@ export default class Ibracket {
 
   isMovunit () {return false;}
   isBracket () {return true;}
-  isIbracket () {return true;}
+  isGroup () {return true;}
   isConjugator () {return false;}
   isCommutator () {return false;}
 
   copy () {
-    return new Ibracket({
+    return new Group({
       lines: this.lines.map(line => line.copy()),
       exponent: this.exponent
     });
   }
 
-  toIbracket () {return this;}
+  toGroup () {return this;}
 
   repeat (count) {
     this.exponent *= count;

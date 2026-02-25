@@ -1,4 +1,4 @@
-import Ibracket from "./ibracket.js";
+import Group from "./group.js";
 import MoveArray from "./movearray.js";
 
 export default class Commutator {
@@ -11,7 +11,7 @@ export default class Commutator {
 
   isMovunit () {return false;}
   isBracket () {return true;}
-  isIbracket () {return false;}
+  isGroup () {return false;}
   isConjugator () {return false;}
   isCommutator () {return true;}
 
@@ -30,13 +30,13 @@ export default class Commutator {
     return !bool? this: this.repeat(-1);
   }
 
-  toIbracket () {
-    return new Ibracket({
+  toGroup () {
+    return new Group({
       lines: [new MoveArray(
-        new Ibracket({lines: [this.lines[0]], exponent: 1}),
-        new Ibracket({lines: [this.lines[1]], exponent: 1}),
-        new Ibracket({lines: [this.lines[0].copy()], exponent: -1}),
-        new Ibracket({lines: [this.lines[1].copy()], exponent: -1})
+        new Group({lines: [this.lines[0]], exponent: 1}),
+        new Group({lines: [this.lines[1]], exponent: 1}),
+        new Group({lines: [this.lines[0].copy()], exponent: -1}),
+        new Group({lines: [this.lines[1].copy()], exponent: -1})
       )],
       exponent: this.exponent
     });
@@ -51,7 +51,7 @@ export default class Commutator {
     return this.exponent >= 0? this: this.conjugate();
   }
   linise ({depth = 0} = {}) {
-    return this.toIbracket().linise({depth});
+    return this.toGroup().linise({depth});
   }
   
   apply (func) {

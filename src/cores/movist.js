@@ -1,5 +1,5 @@
 import Movunit from "../utils/movunit.js";
-import Ibracket from "../utils/ibracket.js";
+import Group from "../utils/group.js";
 import Conjugator from "../utils/conjugator.js";
 import Commutator from "../utils/commutator.js";
 import MoveArray from "../utils/movearray.js";
@@ -243,7 +243,7 @@ export default class Movist {
           }
         }
 
-        movrackets.push(new Ibracket({
+        movrackets.push(new Group({
           lines: [Movist.#makeMoveArrayFromText(line)],
           exponent
         }));
@@ -286,7 +286,7 @@ export default class Movist {
   }
   static #stringifyMove (move) {
     if (move.isMovunit()) {return Movist.#stringifyMovunit(move);}
-    else if (move.isBracket() && move.isIbracket()) {return Movist.#stringifyIbracket(move);}
+    else if (move.isBracket() && move.isGroup()) {return Movist.#stringifyGroup(move);}
     else if (move.isBracket() && move.isConjugator()) {return Movist.#stringifyConjugator(move);}
     else if (move.isBracket() && move.isCommutator()) {return Movist.#stringifyCommutator(move);}
   }
@@ -314,8 +314,8 @@ export default class Movist {
     const exp = abs!=1? abs: "";
     return stringify({lines, prime, exp});
   }
-  static #stringifyIbracket (ibracket) {
-    return Movist.#stringifyBracket(ibracket, ({lines, prime, exp}) => `(${lines[0]})${prime}${exp}`);
+  static #stringifyGroup (group) {
+    return Movist.#stringifyBracket(group, ({lines, prime, exp}) => `(${lines[0]})${prime}${exp}`);
   }
   static #stringifyConjugator (Conjugator) {
     return Movist.#stringifyBracket(Conjugator, ({lines, prime, exp}) => `{${lines[0]}, ${lines[1]}}${prime}${exp}`);

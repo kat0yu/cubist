@@ -30,30 +30,30 @@ export default class MoveArray extends Array {
     return this
       .iriseNVbrackets()
       .normalize()
-      .spliceMinimumIbracket()
-      .spliceMostOutsideIbracket()
+      .spliceMinimumGroup()
+      .spliceMostOutsideGroup()
       .linise({depth: 1});
   }
 
-  spliceMostOutsideIbracket () {
-    if (this.length == 1 && this[0].isBracket() && this[0].isIbracket() && this[0].exponent == 1) {
+  spliceMostOutsideGroup () {
+    if (this.length == 1 && this[0].isBracket() && this[0].isGroup() && this[0].exponent == 1) {
       return this[0].lines[0];
     } else {
       return this;
     }
   }
-  spliceMinimumIbracket () {
+  spliceMinimumGroup () {
     let movrackets = new MoveArray();
     for (let movracket of this) {
       if (movracket.isBracket()) {
         if (movracket.isCommutator() || movracket.isConjugator()) {
-          movrackets.push(movracket.apply((line) => line.spliceMinimumIbracket()));
+          movrackets.push(movracket.apply((line) => line.spliceMinimumGroup()));
         }
-        else if (movracket.isIbracket() && movracket.isMinimum()) {
-          movrackets = movrackets.concat(movracket.apply((line) => line.spliceMinimumIbracket()).linise());
+        else if (movracket.isGroup() && movracket.isMinimum()) {
+          movrackets = movrackets.concat(movracket.apply((line) => line.spliceMinimumGroup()).linise());
         }
-        else if (movracket.isIbracket()) {
-          movrackets.push(movracket.apply((line) => line.spliceMinimumIbracket()));
+        else if (movracket.isGroup()) {
+          movrackets.push(movracket.apply((line) => line.spliceMinimumGroup()));
         }
       } else if (movracket.isMovunit()) {
         movrackets.push(movracket);
@@ -77,9 +77,9 @@ export default class MoveArray extends Array {
     let movrackets = new MoveArray();
     for (let movracket of this) {
       if (movracket.isBracket() && (movracket.isCommutator() || movracket.isConjugator())) {
-        movrackets.push(movracket.apply((line) => line.iriseNVbrackets()).toIbracket());
+        movrackets.push(movracket.apply((line) => line.iriseNVbrackets()).toGroup());
       }
-      else if (movracket.isBracket() && movracket.isIbracket()) {
+      else if (movracket.isBracket() && movracket.isGroup()) {
         movrackets.push(movracket.apply((line) => line.iriseNVbrackets()));
       }
       else if (movracket.isMovunit()) {
