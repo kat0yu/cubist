@@ -36,6 +36,10 @@ export default class Movunit {
       times: (this.#times*count<0? -1: 1) * ({0: 0, 1: 1, 2: 2, 3: -1}[Math.abs(this.#times*count)%4])
     });
   }
+  inverse (bool) {
+    if (!bool) {return this;}
+    return this.repeat(-1);
+  }
 
   *getAffectedStickers () {
     const on = new Face({isFront: true, rotate: this.#axis});

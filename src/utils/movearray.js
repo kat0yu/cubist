@@ -1,25 +1,21 @@
 export default class MoveArray extends Array {
-  repeat (count) {
-    let movrackets = new MoveArray();
-    for (let time = 0; time < Math.abs(count); time++) {
-      if (count > 0) {
-        for (let mov of this) {
-          movrackets.push(mov);
-        }
-      } else {
-        for (let mov of this.inverse()) {
-          movrackets.push(mov);
-        }
-      }
+  concat (movearray) {
+    for (let move of movearray) {
+      this.push(move.copy());
     }
-    return movrackets;
+    return this;
   }
-  inverse () {
-    let movs = new MoveArray();
-    for (let i=this.length-1; i>=0; i--) {
-      movs.push(this[i].repeat(-1));
+
+  repeat (count) {
+    if (count < 0) {return this.inverse().repeat(count * -1);}
+    const copied = this.copy();
+    for (let i = 1; i < count; i++) {
+      this.concat(copied);
     }
-    return movs;
+    return this;
+  }
+  inverse (bool = true) {
+    return this.reverse().map(move => move.inverse(bool));
   }
 
   copy () {
