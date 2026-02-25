@@ -142,7 +142,7 @@ export default class Cubist {
         prev = this.getColors();
       }
 
-      if (count < ((Math.abs(moves[phase].getTimes()) < 2)? duration: duration*2)) {
+      if (count < ((Math.abs(moves[phase].times) < 2)? duration: duration*2)) {
         this.spin(moves[phase], count/duration*90);
         
         requestAnimationFrame(() => step({count: count + 1, phase, prev, origin, repeat}));
@@ -189,7 +189,7 @@ export default class Cubist {
     return intro;
   }
   spin (move, degree) {
-    const direction = Threedee.rotate([1, 0, 0], move.getAxis());
+    const direction = Threedee.rotate([1, 0, 0], move.axis);
 
     for (let sticker of move.getAffectedStickers()) {
       const path = this.#pathes[sticker.getName()];
@@ -200,7 +200,7 @@ export default class Cubist {
             cordinate,
             [1/2, 1/2, 1/2],
             direction,
-            degree*(move.getTimes() > 0? 1: -1)
+            degree*(move.times > 0? 1: -1)
           ))
           .map(cordinate => this.#convert(cordinate))
           .map(cordinate => Threedee.strain(cordinate, Cubist.strainConstant))
@@ -249,9 +249,9 @@ export default class Cubist {
     }
     return this;
   }
-  moveColorsByMove (movetext, reversed = false) {
+  moveColorsByMove (movetext, inversed = false) {
     let moves = new Movist(movetext).array;
-    if (reversed) {moves = moves.reverse();}
+    if (inversed) {moves = moves.inverse();}
     moves = moves.linise();
     for (let move of moves) {
       this.moveColors(move);

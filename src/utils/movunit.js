@@ -14,17 +14,19 @@ export default class Movunit {
   isMovunit () {return true;}
   isBracket () {return false;}
 
+  copy () {
+    return new Movunit({
+      axis: this.#axis,
+      width: this.#width,
+      start: this.#start,
+      times: this.#times
+    });
+  }
+
   get axis () {return this.#axis;}
   get width () {return this.#width;}
   get start () {return this.#start;}
   get times () {return this.#times;}
-  
-  getAxis () {
-    return this.#axis;
-  }
-  getTimes () {
-    return this.#times;
-  }
 
   repeat (count) {
     return new Movunit({
@@ -33,6 +35,10 @@ export default class Movunit {
       start: this.#start,
       times: (this.#times*count<0? -1: 1) * ({0: 0, 1: 1, 2: 2, 3: -1}[Math.abs(this.#times*count)%4])
     });
+  }
+  inverse (bool) {
+    if (!bool) {return this;}
+    return this.repeat(-1);
   }
 
   *getAffectedStickers () {
