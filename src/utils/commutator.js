@@ -35,16 +35,15 @@ export default class Commutator {
       lines: [new MoveArray(
         new Ibracket({lines: [this.lines[0]], exponent: 1}),
         new Ibracket({lines: [this.lines[1]], exponent: 1}),
-        new Ibracket({lines: [this.lines[0]], exponent: -1}),
-        new Ibracket({lines: [this.lines[1]], exponent: -1})
+        new Ibracket({lines: [this.lines[0].copy()], exponent: -1}),
+        new Ibracket({lines: [this.lines[1].copy()], exponent: -1})
       )],
       exponent: this.exponent
     });
   }
 
   conjugate () {
-    this.lines[0] = this.lines[0].reverse();
-    this.lines[1] = this.lines[1].reverse();
+    this.lines = this.lines.reverse();
     this.exponent *= -1;
     return this;
   }
